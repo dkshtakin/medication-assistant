@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional, Dict, Any
+from typing import Optional, List, Any
 
 
 class SearchRequest(BaseModel):
@@ -10,4 +10,4 @@ class SearchRequest(BaseModel):
 
 
 class SearchResponse(BaseModel):
-    chunks: Dict[Any, Any]
+    chunks: List[Any]
