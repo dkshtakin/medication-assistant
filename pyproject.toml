@@ -4,6 +4,9 @@ version = "0.1.0"
 description = "Retrieval-api based on qdrant"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "fastapi[standard]>=0.162.2",
+    "unicorn>=2.1.4",
+]
 
 [tool.black]
