@@ -1,0 +1,9 @@
+{
+  "$schema": "https://langgra.ph/schema.json",
+  "dependencies": ["."],
+  "graphs": {
+    "rag": "./graphs/rag.py:graph"
+  },
+  "env": ".env",
+  "image_distro": "wolfi"
+}
