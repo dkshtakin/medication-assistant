@@ -4,6 +4,24 @@ version = "0.1.0"
 description = "Retrieval-api based on qdrant"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "fastapi[standard]>=0.162.2",
+    "fastembed>=0.9.1",
+    "qdrant-client>=1.20.0",
+    "sentence-transformers>=6.2.0",
+    "torch>=2.15.0",
+    "unicorn>=2.1.4",
+]
 
-[tool.black]
+[tool.uv.sources]
+torch = [
+  { index = "torch-cu132", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+]
+torchvision = [
+  { index = "torch-cu132", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+]
+
+[[tool.uv.index]]
+name = "torch-cu132"
+url = "https://download.pytorch.org/whl/cu132"
+explicit = true
