@@ -1,9 +1,10 @@
 from fastapi import APIRouter
 from models.search import SearchRequest, SearchResponse
 from retrieval.retriever import EmptyRetriever
+from retrieval.qdrant.hybrid import QdrantHybridRetriever
 
 router = APIRouter()
-retriever = EmptyRetriever()
+retriever = QdrantHybridRetriever()
 
 
 @router.post("/search")
