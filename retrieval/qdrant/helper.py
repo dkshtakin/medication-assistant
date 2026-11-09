@@ -1,5 +1,5 @@
-from langchain_huggingface.embeddings import HuggingFaceEmbeddings
-from langchain_qdrant import FastEmbedSparse
+from sentence_transformers import SentenceTransformer
+from fastembed import SparseTextEmbedding
 from huggingface_hub import snapshot_download, hf_hub_download
 from qdrant_client import QdrantClient
 import logging
@@ -19,8 +19,8 @@ class QdrantHelper:
         self.sparse_embeds_name = "Qdrant/BM25"
 
         # first download
-        snapshot_download = False
-        if snapshot_download:
+        first_download = False
+        if first_download:
             _ = snapshot_download(
                 repo_id=self.dense_embeds_name,
                 local_dir=self.embeds_local_dir,
@@ -31,13 +31,13 @@ class QdrantHelper:
         doc_encode_prefix = "title: none | text: "
         logger.info(f"Embeddings doc_encode_prefix: {doc_encode_prefix}")
         logger.info(f"Embeddings query_encode_prefix: {query_encode_prefix}")
-        self.dense_embeddings = HuggingFaceEmbeddings(
-            model_name=self.embeds_local_dir,
-            encode_kwargs={"prompt": doc_encode_prefix},
-            query_encode_kwargs={"prompt": query_encode_prefix},
-            model_kwargs={"device": self.device},
+        self.dense_embeddings = SentenceTransformer(
+            model_name_or_path=self.embeds_local_dir,
+            prompts={"query": query_encode_prefix, "document": doc_encode_prefix},
+            device=self.device,
+            local_files_only=True,
         )
-        self.sparse_embeddings = FastEmbedSparse(model_name=self.sparse_embeds_name)
+        self.sparse_embeddings = SparseTextEmbedding(model_name=self.sparse_embeds_name)
         logger.info("Embeddings initialized")
 
         self.client = QdrantClient(path="retrieval/qdrant/qdrant_data")

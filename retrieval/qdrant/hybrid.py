@@ -25,14 +25,14 @@ class QdrantHybridRetriever(Retriever):
         if retrieval_type is None:
             retrieval_type = "hybrid"
 
-        query_sparse_embeddings = self.qdrant_helper.sparse_embeddings.embed_query(
-            query
+        query_sparse_embeddings = next(
+            self.qdrant_helper.sparse_embeddings.query_embed(query)
         )
         query_sparse_embeddings = models.SparseVector(
             indices=query_sparse_embeddings.indices,
             values=query_sparse_embeddings.values,
         )
-        query_dense_embeddings = self.qdrant_helper.dense_embeddings.embed_query(query)
+        query_dense_embeddings = self.qdrant_helper.dense_embeddings.encode_query(query)
 
         searchname_filter = (
             models.Filter(
